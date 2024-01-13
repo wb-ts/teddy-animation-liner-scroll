@@ -1,21 +1,41 @@
 import { ReactLenis, useLenis } from '@studio-freight/react-lenis';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-
+  
+  const baseHeight = 4775;
+  const mainHeight = 9775;
   const [current, setCurrent] = useState<number>(0);
-  const scrollLimit = 3856;
+  const [pageHeight, setPageHeight] = useState(window.innerHeight);
+  
+  const scrollLimit = baseHeight - pageHeight;
 
-  const lenis = useLenis(({ scroll }) => setCurrent(scroll));
+  const lenis = useLenis(({ scroll }) => {
+    setCurrent(scroll + pageHeight * scroll / scrollLimit);
+    console.log("scroll:", scroll, pageHeight);
+  });
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPageHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <ReactLenis root>
-      <div className='h-[4775px] relative overflow-hidden'>
-        <div className='h-[9775px] overflow-y-scroll no-scrollbar'>
+      <div className={`h-[${baseHeight}px] relative overflow-hidden`}>
+        <div className={`h-[${mainHeight}px] overflow-y-scroll no-scrollbar`}>
           <div className="fixed w-full bg-[#e5ca6a]">
             <div className="w-full h-3 bg-black relative">
-              <div className="bg-[#C86148] absolute left-0 top-0 h-full z-10 transition-all duration-0" style={{ width: `${current / scrollLimit * 100}%` }}>
+              <div className="bg-[#C86148] absolute left-0 top-0 h-full z-10 transition-all duration-0" style={{ width: `${current / baseHeight * 100}%` }}>
               </div>
             </div>
             <div>
@@ -72,7 +92,7 @@ function App() {
                       </div>
                     </div> : <></>
                 }
-                <img src={`assests/teddy/teddy (${Math.floor(current / scrollLimit * 190) + 1}).webp`} alt='Teddy' className='w-full max-w-[400px] sm:max-w-[500px] lg:w-2/5 lg:max-w-[600px] h-1/2 lg:h-full container mx-auto pointer-events-none select-none aspect-square relative z-[5] object-contain object-bottom mt-[-40px] sm:mt-0' />
+                <img src={`assests/teddy/teddy (${Math.floor(current / baseHeight * 190) + 1}).webp`} alt='Teddy' className='w-full max-w-[400px] sm:max-w-[500px] lg:w-2/5 lg:max-w-[600px] h-1/2 lg:h-full container mx-auto pointer-events-none select-none aspect-square relative z-[5] object-contain object-bottom mt-[-40px] sm:mt-0' />
               </div>
             </div>
           </div>
