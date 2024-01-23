@@ -8,7 +8,7 @@ function App() {
   const mainHeight = 9775;
   const [current, setCurrent] = useState<number>(0);
   const [pageHeight, setPageHeight] = useState(window.innerHeight);
-  
+
   const scrollLimit = baseHeight - pageHeight;
 
   const lenis = useLenis(({ scroll }) => {
@@ -92,7 +92,11 @@ function App() {
                       </div>
                     </div> : <></>
                 }
-                <img src={`assests/teddy/teddy (${Math.floor(current / baseHeight * 190) + 1}).webp`} alt='Teddy' className='w-full max-w-[400px] sm:max-w-[500px] lg:w-2/5 lg:max-w-[600px] h-1/2 lg:h-full container mx-auto pointer-events-none select-none aspect-square relative z-[5] object-contain object-bottom mt-[-40px] sm:mt-0' />
+                <img
+                  src={`assests/teddy/teddy (${Math.floor(current / baseHeight * 190) + 1}).webp`}
+                  alt='Teddy'
+                  className='w-full max-w-[400px] sm:max-w-[500px] lg:w-2/5 lg:max-w-[600px] h-1/2 lg:h-full container mx-auto pointer-events-none select-none aspect-square relative z-[5] object-contain object-bottom mt-[-40px] sm:mt-0'
+                />
               </div>
             </div>
           </div>
